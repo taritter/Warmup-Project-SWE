@@ -25,6 +25,7 @@ def pull_from_firestore(filename):
             db.collection("Books").document(title).set(book_dict)
 
 
+# input validation - Tess
 def filter_fields(field, operator, value):
     field = "genre"
     operator = "=="
@@ -39,6 +40,7 @@ def filter_fields(field, operator, value):
     return book_dict
 
 
+# input validation - Paul
 def book_title(title, get_field):
     db = Admin.connect_to_firestore()
     # gets information about a specific book
@@ -49,3 +51,4 @@ def book_title(title, get_field):
     print(field.get(get_field))
 
     return field.get(get_field)
+
