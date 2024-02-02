@@ -2,6 +2,7 @@ import Admin
 import json
 from google.cloud.firestore_v1 import FieldFilter
 
+
 def pull_from_firestore(filename):
     db = Admin.connect_to_firestore()
 
@@ -30,14 +31,21 @@ def filter_fields(field, operator, value):
     value = "fantasy"
     db = Admin.connect_to_firestore()
     # filters out all books with genre as fantasy
-    fantasy_books = db.collection("Books").where(filter=FieldFilter(field, operator, value)).stream()
+    book_dict = db.collection("Books").where(filter=FieldFilter(field, operator, value)).stream()
 
-    for f in fantasy_books:
-        print(f"{f.id} => {f.to_dict()}")
+    for b in book_dict:
+        print(f"{b.id} => {b.to_dict()}")
 
-def book_title(title):
+    return book_dict
+
+
+def book_title(title, get_field):
+    db = Admin.connect_to_firestore()
     # gets information about a specific book
     title = "Crime and Punishment"
-    crime = db.collection("Books").document(title).get()
-    print(crime.to_dict())
-    print(crime.get("cost"))
+    get_field = "cost"
+    field = db.collection("Books").document(title).get()
+    print(field.to_dict())
+    print(field.get(get_field))
+
+    return field.get(get_field)
