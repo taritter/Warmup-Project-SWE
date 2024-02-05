@@ -1,4 +1,4 @@
-
+import pyparsing
 
 #import firebase_admin
 #from firebase_admin import credentials
@@ -14,6 +14,14 @@ ex_string2 = '"If you give a mouse a cookie"'
 ex_string3 = 'author of "Love Hypothesis"'
 
 ex_string4 = input("Show me: ")
+
+field = pyparsing.Word(pyparsing.alphas)
+
+title = pyparsing.Opt('\"') + pyparsing.Word(pyparsing.alphanums) + pyparsing.Opt('\"')
+
+of_query = field + "of" + title
+
+equal_query = field + "=" + title
 
 def parse(s: str):
 
