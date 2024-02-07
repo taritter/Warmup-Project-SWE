@@ -3,13 +3,13 @@ from google.cloud.firestore_v1 import FieldFilter
 
 
 # input validation - Tess
-def filter_fields(arr) -> dict:
+def filter_fields(arr, db) -> dict:
     """
     field = "genrez"
     operator = "=="
     value = "fantasy"
     """
-    db = Utilities.connect_to_firestore()
+
     # filters out all books with genre as fantasy
 
     books_ref = db.collection("Books")
@@ -58,9 +58,11 @@ def book_title(title, get_field):
 
 
 def main():
+    db = Utilities.connect_to_firestore()
     # print(filter_fields([["g", "==", "fantasy"]]))
-    print(filter_fields([["genre", "==", "fantasy"], ["cost", ">", 10]]))
-    print(filter_fields([["genre", "==", "fantasy"], ["cost", ">", 10]]))
+    print(filter_fields([["cost", ">", 10]], db))
+    print(filter_fields([["genre", "==", "Fantasy"], ["cost", ">", 10]], db))
+    # print(filter_fields([["genre", "==", "fantasy"], ["cost", ">", 10]]))
 
 
 if __name__ == "__main__":
