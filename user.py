@@ -1,4 +1,4 @@
-import pyparsing
+from pyparsing import one_of, OneOrMore, ZeroOrMore, Word, Opt, Suppress, alphanums
 
 #import firebase_admin
 #from firebase_admin import credentials
@@ -16,12 +16,12 @@ ex_string3 = 'author of "Love Hypothesis"'
 
 
 # Pyparsing forms
-field = pyparsing.one_of("title cost author date_published genre goodreads_rating our_rating")
-value = pyparsing.Opt('\"') + pyparsing.OneOrMore(pyparsing.Word(pyparsing.alphanums)) + pyparsing.Opt('\"')
-operators = pyparsing.one_of("= < > of")
-concat = pyparsing.one_of("and or")
+field = one_of("title cost author date_published genre goodreads_rating our_rating")
+value = Suppress(Opt('\"')) + OneOrMore(Word(alphanums)) + Suppress(Opt('\"'))
+operators = one_of("= < > of")
+concat = one_of("and or")
 query_form = field + operators + value
-combined_query = query_form + pyparsing.ZeroOrMore(concat + query_form)
+combined_query = query_form + ZeroOrMore(concat + query_form)
 
 
 # Parse function
@@ -40,7 +40,11 @@ def parse(s: str):
         result = combined_query.parseString(s).as_list()
 
 
-        print(result[0])
+        print("Field = " + result[0])
+
+        print("Operator = '" + result[1] + "'")
+
+        print("Value = " + result[2] + result[3])
 
 
         #if result[1] == "of":
