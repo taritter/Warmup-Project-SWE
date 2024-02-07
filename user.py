@@ -1,4 +1,4 @@
-from pyparsing import one_of, OneOrMore, ZeroOrMore, Word, Opt, Suppress, alphanums
+from pyparsing import one_of, OneOrMore, ZeroOrMore, Word, Opt, Suppress, alphanums, originalTextFor
 
 #import firebase_admin
 #from firebase_admin import credentials
@@ -9,7 +9,7 @@ from pyparsing import one_of, OneOrMore, ZeroOrMore, Word, Opt, Suppress, alphan
 
 
 # Example Strings
-ex_string1 = 'genre of "Book Title"'
+ex_string1 = 'genre = "Type of Genre" and author = "Hibbeler" or cost > 4'
 ex_string2 = '"If you give a mouse a cookie"'
 ex_string3 = 'author of "Love Hypothesis"'
 #ex_string4 = input("Show me:")
@@ -20,7 +20,7 @@ field = one_of("title cost author date_published genre goodreads_rating our_rati
 value = Suppress(Opt('\"')) + OneOrMore(Word(alphanums)) + Suppress(Opt('\"'))
 operators = one_of("= < > of")
 concat = one_of("and or")
-query_form = field + operators + value
+query_form = field + operators + originalTextFor(value)
 combined_query = query_form + ZeroOrMore(concat + query_form)
 
 
@@ -31,26 +31,62 @@ def parse(s: str):
     s.strip()
 
     # Detect type of query
-    if s[0] == '\"':
+    try:
+        if s[0] == '\"':
 
-        #title query bc first char is beginning of quotes
-        title_query(s)
+            #title query bc first char is beginning of quotes
+            title_query(s)
 
-    else: 
-        result = combined_query.parseString(s).as_list()
-
-
-        print("Field = " + result[0])
-
-        print("Operator = '" + result[1] + "'")
-
-        print("Value = " + result[2] + result[3])
+        else:
+            # Figure out if its 'of query' or 'regular query'
+            result = combined_query.parseString(s).as_list()
 
 
-        #if result[1] == "of":
-        #    of_query(result[0], result[3])
+            # Read through query and separate different or queries
+            query_array = []
+            temp_list = []
 
-        # return as_list() 
+            for i in result:
+                if i == "or":
+                    query_array.append(temp_list)
+                    temp_list = []
+                else: 
+                    temp_list.append(i)
+            query_array.append(temp_list)
+
+            print(query_array)
+
+            compound_query_list = []
+        
+
+            # Now read through these sub queries and send to and_query function
+            for query in query_array:
+
+                temp_list = []
+                for i in query:
+
+                    if i == "and":
+                        compound_query_list.append(temp_list)
+                        temp_list = []
+                    else:
+                        temp_list.append(i)
+                compound_query_list.append(temp_list)
+
+
+            print(compound_query_list)
+
+
+
+
+
+
+
+
+            print(len(result))
+
+    except:
+        # 
+        print("failed")
 
     return
 
