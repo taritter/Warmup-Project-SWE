@@ -111,3 +111,23 @@ def operator_query(fields:list, operators:list, values:list):
 parse(ex_string1)
 parse(ex_string2)
 parse(ex_string3)
+
+def main():
+
+    doneQuerying = False
+    while not doneQuerying:
+
+        print("Welcome to ... \n for help type 'help'")
+        query_prompt = input("Enter your search: ")
+
+        if query_prompt.casefold() == 'help':
+            print("Help message...")
+
+        #db = Utilities.connect_to_firestore()
+
+        #queryfunction(parse(query_prompt))
+
+
+    return 0
+
+
