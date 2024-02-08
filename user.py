@@ -43,45 +43,29 @@ def parse(s: str):
 
 
             # Read through query and separate different or queries
-            query_array = []
-            temp_list = []
+             query_array = []
+            temp_and_list = []
+            temp_or_list = []
 
             for i in result:
                 if i == "or":
-                    query_array.append(temp_list)
-                    temp_list = []
-                else: 
-                    temp_list.append(i)
-            query_array.append(temp_list)
+                    if temp_and_list:  #check if there are values separated by and
+                        temp_or_list.append(temp_and_list)  #add values separated by and to or list
+                    query_array.append(temp_or_list)  #add or list to the main query array
+                    temp_and_list = []  #reset lists
+                    temp_or_list = [] 
+                elif i == "and":
+                    if temp_and_list:  #check if there are values separated by "and"
+                        temp_or_list.append(temp_and_list)  #add values separated by and to or list
+                    temp_and_list = []  #reset and list
+                else:
+                    temp_and_list.append(i)
+
+            if temp_and_list:  #check if there are values in and list
+                temp_or_list.append(temp_and_list)  #add values to or list
+            query_array.append(temp_or_list)  #add or list to the main query array
 
             print(query_array)
-
-            compound_query_list = []
-        
-
-            # Now read through these sub queries and send to and_query function
-            for query in query_array:
-
-                temp_list = []
-                for i in query:
-
-                    if i == "and":
-                        compound_query_list.append(temp_list)
-                        temp_list = []
-                    else:
-                        temp_list.append(i)
-                compound_query_list.append(temp_list)
-
-
-            print(compound_query_list)
-
-
-
-
-
-
-
-
             print(len(result))
 
     except:
