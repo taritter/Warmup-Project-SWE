@@ -3,7 +3,8 @@ from google.cloud.firestore_v1 import FieldFilter
 
 
 # input validation - Tess
-def filter_fields(arr, db) -> dict:
+# this is for and or regular args
+def filter_fields_and(arr, db) -> dict:
     """
     field = "genrez"
     operator = "=="
@@ -14,20 +15,20 @@ def filter_fields(arr, db) -> dict:
 
     books_ref = db.collection("Books")
 
-
-    """
-    doc_ref = db.collection("Books").get()
-    if doc.exists:
-        print(f"Document data: {doc.to_dict()}")
-    else:
-        print("No such document!") """
-    book_dict = {}
-    where = "books_ref"
     for i in range(len(arr)):
-        where += ".where(filter=FieldFilter(" + "\"" + str(arr[i][0]) + "\", " + "\"" + str(arr[i][1]) + "\", " + "\"" + str(arr[i][2]) + "\"" + "))"
+        books_ref = books_ref.where(filter=FieldFilter(arr[i][0], arr[i][1], arr[i][2]))
 
-    print(where)
-    book_dict = exec(where)
+    book_dict = books_ref.stream()
+
+    if not books_ref:
+        print(f"There are no books where {arr[i][0]} {arr[i][1]} {arr[i][2]}")
+
+
+    for b in book_dict:
+        # Prints our book title
+        book_data = b.id
+        print(book_data)
+
     """
     book_dict = dict(books_ref.where(filter=FieldFilter(field, operator, value)).stream())
     if len(book_dict) == 0:
@@ -42,6 +43,23 @@ def filter_fields(arr, db) -> dict:
         print(f"{b.id} => {b.to_dict()}")
     """
     return book_dict
+
+
+def filter_fields_or(arr, db) -> dict:
+    books_ref = db.collection("Books")
+    book = {}
+    i = 0
+    for i in range(len(arr)):
+        book.update(books_ref.where(filter=FieldFilter(arr[i][0], arr[i][1], arr[i][2])).stream())
+
+
+    if not books_ref:
+        print(f"There are no books where {arr[i][0]} {arr[i][1]} {arr[i][2]}")
+
+    for b in book:
+        # Prints our book title
+        book_data = b.id
+        print(book_data)
 
 
 # input validation - Paul
@@ -60,9 +78,12 @@ def book_title(title, get_field):
 def main():
     db = Utilities.connect_to_firestore()
     # print(filter_fields([["g", "==", "fantasy"]]))
-    print(filter_fields([["cost", ">", 10]], db))
-    print(filter_fields([["genre", "==", "Fantasy"], ["cost", ">", 10]], db))
+    print("cost > 10")
+    filter_fields_and([["cost", ">", 10]], db)
+    print("genre is fantasy and cost > 10")
+    filter_fields_and([["genre", "==", "Fantasy"], ["cost", ">", 10]], db)
     # print(filter_fields([["genre", "==", "fantasy"], ["cost", ">", 10]]))
+    filter_fields_or([["genre", "==", "Fantasy"], ["cost", ">", 10]], db)
 
 
 if __name__ == "__main__":
