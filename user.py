@@ -43,10 +43,14 @@ def parse(s: str):
 
 
             # Read through query and separate different or queries
-             query_array = []
+            query_array = []
             temp_and_list = []
             temp_or_list = []
-
+            #--------------
+            #NOTE: it does not work if there are numbers in the string. If they are in quotes its fine but
+            #obvi it would be a string type which is not what we want
+            #--------------
+            
             for i in result:
                 if i == "or":
                     if temp_and_list:  #check if there are values separated by and
