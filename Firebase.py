@@ -48,18 +48,22 @@ def filter_fields_and(arr, db) -> dict:
 def filter_fields_or(arr, db) -> dict:
     books_ref = db.collection("Books")
     book = {}
+    book_set = set()
     i = 0
     for i in range(len(arr)):
-        book.update(books_ref.where(filter=FieldFilter(arr[i][0], arr[i][1], arr[i][2])).stream())
+        book = books_ref.where(filter=FieldFilter(arr[i][0], arr[i][1], arr[i][2])).stream()
+        for b in book:
+        # Prints our book title
+            book_set.add(b.id)
 
 
     if not books_ref:
         print(f"There are no books where {arr[i][0]} {arr[i][1]} {arr[i][2]}")
 
-    for b in book:
+
+    for bs in book_set:
         # Prints our book title
-        book_data = b.id
-        print(book_data)
+        print(bs)
 
 
 # input validation - Paul
@@ -78,10 +82,10 @@ def book_title(title, get_field):
 def main():
     db = Utilities.connect_to_firestore()
     # print(filter_fields([["g", "==", "fantasy"]]))
-    print("cost > 10")
-    filter_fields_and([["cost", ">", 10]], db)
-    print("genre is fantasy and cost > 10")
-    filter_fields_and([["genre", "==", "Fantasy"], ["cost", ">", 10]], db)
+    #print("cost > 10")
+    #filter_fields_and([["cost", ">", 10]], db)
+    #print("genre is fantasy and cost > 10")
+    #filter_fields_and([["genre", "==", "Fantasy"], ["cost", ">", 10]], db)
     # print(filter_fields([["genre", "==", "fantasy"], ["cost", ">", 10]]))
     filter_fields_or([["genre", "==", "Fantasy"], ["cost", ">", 10]], db)
 
