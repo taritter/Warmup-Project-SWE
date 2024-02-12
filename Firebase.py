@@ -14,9 +14,10 @@ def filter_fields_and(arr, db) -> dict:
     # filters out all books with genre as fantasy
 
     books_ref = db.collection("Books")
-
-    for i in range(len(arr)):
-        books_ref = books_ref.where(filter=FieldFilter(arr[i][0], arr[i][1], arr[i][2]))
+    #needs to be double nested for loop because the input array is a 2-d array. like this kind of idk we'll fix it later 
+    for and_array in range(len(arr)):
+        for statement in and_array:
+            books_ref = books_ref.where(filter=FieldFilter(arr[and_array][0], arr[and_array][1], arr[and_array][2]))
 
     book_dict = books_ref.stream()
 
