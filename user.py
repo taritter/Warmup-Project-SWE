@@ -102,10 +102,12 @@ parse(ex_string3)
 
 def main():
 
-    doneQuerying = False
-    while not doneQuerying:
+    print("Welcome to ... \nfor help type 'help'")
 
-        print("Welcome to ... \n for help type 'help'")
+    doneQuerying = False
+
+    while not doneQuerying:
+        
         query_prompt = input("Enter your search: ")
 
         if query_prompt.casefold() == 'help':
@@ -115,7 +117,13 @@ def main():
 
         #queryfunction(parse(query_prompt))
 
+        done = input("Would you like to make another query? (y/n)")
+
+        if done.casefold() == 'n':
+            doneQuerying = True
+
+    
 
     return 0
 
-
+main()
