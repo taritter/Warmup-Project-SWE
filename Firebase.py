@@ -67,6 +67,34 @@ def filter_fields_or(arr, db) -> dict:
         print(bs)
 
 
+def filter_fields_and(arr, db) -> dict:
+    """
+    field = "genrez"
+    operator = "=="
+    value = "fantasy"
+    """
+
+    # filters out all books with genre as fantasy
+
+    books_ref = db.collection("Books")
+    #needs to be double nested for loop because the input array is a 2-d array. like this kind of idk we'll fix it later 
+    for and_array in range(len(arr)):
+        for statement in and_array:
+            books_ref = books_ref.where(filter=FieldFilter(arr[and_array][0], arr[and_array][1], arr[and_array][2]))
+
+    book_dict = books_ref.stream()
+
+    if not books_ref:
+        print(f"There are no books where {arr[i][0]} {arr[i][1]} {arr[i][2]}")
+
+
+    for b in book_dict:
+        # Prints our book title
+        book_data = b.id
+        print(book_data)
+    return book_dict
+
+
 # input validation - Paul
 def book_title(title, get_field):
     db = Utilities.connect_to_firestore()
@@ -89,6 +117,7 @@ def main():
     #filter_fields_and([["genre", "==", "Fantasy"], ["cost", ">", 10]], db)
     # print(filter_fields([["genre", "==", "fantasy"], ["cost", ">", 10]]))
     filter_fields_or([["genre", "==", "Fantasy"], ["cost", ">", 10]], db)
+    filter_fields([[['genre', '=', '"Type of Genre"'], ['author', '=', '"Hibbeler"']], [['cost', '>', '"4"'], ['author', '=', '"5"']], [['title', '=', '"bob"']]])
 
 
 if __name__ == "__main__":

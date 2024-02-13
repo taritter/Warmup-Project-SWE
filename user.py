@@ -9,7 +9,7 @@ from pyparsing import one_of, OneOrMore, ZeroOrMore, Word, Opt, Suppress, alphan
 
 
 # Example Strings
-ex_string1 = 'genre = "Type of Genre" and author = "Hibbeler" or cost > 4'
+ex_string1 = 'genre = "Type of Genre" and author = "Hibbeler" or cost > "4" and author = "5" or title = "bob"'
 ex_string2 = '"If you give a mouse a cookie"'
 ex_string3 = 'author of "Love Hypothesis"'
 #ex_string4 = input("Show me:")
@@ -126,5 +126,5 @@ def main():
 
     return 0
 
-#if __name__ == "__main__":
-#    main()
+if __name__ == "__main__":
+    main()
