@@ -72,9 +72,13 @@ def parse(s: str):
     return query_array
 
 
-def title_query(s: str):
-    # Make call to query
-    print(s)
+def book_title(title, db):
+    # gets information about a specific book
+    field = db.collection("Books").document(title).get()
+    # print(field.to_dict())
+    if field.to_dict() == None:
+        print("This book does not exist in the database")
+    return field.to_dict()
 
 
 def of_query(field: str, title: str):

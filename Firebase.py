@@ -96,16 +96,13 @@ def filter_fields_and(arr, db) -> dict:
 
 
 # input validation - Paul
-def book_title(title, get_field):
-    db = Utilities.connect_to_firestore()
+def book_title(title, db):
     # gets information about a specific book
-    title = "Crime and Punishment"
-    get_field = "cost"
     field = db.collection("Books").document(title).get()
-    print(field.to_dict())
-    print(field.get(get_field))
-
-    return field.get(get_field)
+    # print(field.to_dict())
+    if field.to_dict() == None:
+        print("This book does not exist in the database")
+    return field.to_dict()
 
 
 def main():
@@ -116,8 +113,10 @@ def main():
     #print("genre is fantasy and cost > 10")
     #filter_fields_and([["genre", "==", "Fantasy"], ["cost", ">", 10]], db)
     # print(filter_fields([["genre", "==", "fantasy"], ["cost", ">", 10]]))
-    filter_fields_or([["genre", "==", "Fantasy"], ["cost", ">", 10]], db)
-    filter_fields([[['genre', '=', '"Type of Genre"'], ['author', '=', '"Hibbeler"']], [['cost', '>', '"4"'], ['author', '=', '"5"']], [['title', '=', '"bob"']]])
+    # filter_fields_or([["genre", "==", "Fantasy"], ["cost", ">", 10]], db)
+    # filter_fields([[['genre', '=', '"Type of Genre"'], ['author', '=', '"Hibbeler"']], [['cost', '>', '"4"'], ['author', '=', '"5"']], [['title', '=', '"bob"']]])
+
+    book_title("The Dark Tower", db)
 
 
 if __name__ == "__main__":
