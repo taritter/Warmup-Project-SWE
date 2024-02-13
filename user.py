@@ -1,23 +1,18 @@
-from pyparsing import one_of, OneOrMore, ZeroOrMore, Word, Opt, Suppress, alphanums, originalTextFor
+from pyparsing import one_of, OneOrMore, ZeroOrMore, Word, Opt, Suppress, printables, originalTextFor
 
 import Utilities
 
 from google.cloud.firestore_v1 import FieldFilter
 
-# cred = credentials.Certificate("path/to/serviceAccountKey.json")
-# firebase_admin.initialize_app(cred)
-
 
 # Example Strings
-ex_string1 = 'genre = "Type of Genre" and author = "Hibbeler" or cost > "4" and author = "5" or title = "bob"'
-ex_string2 = '"If you give a mouse a cookie"'
-ex_string3 = 'author of "Love Hypothesis"'
-# ex_string4 = input("Show me:")
+ex_string1 = 'genre == "Fantasy" and author == "Samantha Shannon"'
+ex_string2 = 'genre == "Fantasy" and author == "Samantha Shannon" or cost < 4'
 
 
 # Pyparsing forms
 field = one_of("title cost author date_published genre goodreads_rating our_rating")
-value = Suppress(Opt('\"')) + OneOrMore(Word(alphanums)) + Suppress(Opt('\"'))
+value = Suppress(Opt('\"')) + OneOrMore(Word(printables)) + Suppress(Opt('\"'))
 operators = one_of("== < > of")
 concat = one_of("and or")
 query_form = field + operators + originalTextFor(value)
@@ -28,6 +23,7 @@ combined_query = query_form + ZeroOrMore(concat + query_form)
 def parse(s: str):
     # Remove leading + trailing whitespace
     s.strip()
+    query_array = []
 
     # Detect type of query
     try:
@@ -41,7 +37,6 @@ def parse(s: str):
             result = combined_query.parseString(s).as_list()
 
             # Read through query and separate different or queries
-            query_array = []
             temp_and_list = []
             temp_or_list = []
 
@@ -62,8 +57,6 @@ def parse(s: str):
             if temp_and_list:  #check if there are values in and list
                 temp_or_list.append(temp_and_list)  #add values to or list
             query_array.append(temp_or_list)  #add or list to the main query array
-
-
 
     except:
         #
@@ -92,68 +85,53 @@ def operator_query(fields: list, operators: list, values: list):
     # Concatenate queries together with for loop
 
     return NotImplementedError
-
-
-#parse(ex_string1)
-#parse(ex_string2)
-#parse(ex_string3)
-
-
-def filter_fields_and(arr, db) -> dict:
+def filter_fields_and(or_arr, db) -> dict:
     """
     field = "genrez"
     operator = "=="
     value = "fantasy"
     """
-    print(arr)
-    # filters out all books with genre as fantasy
     books_ref = db.collection("Books")
     book_set = set()
-    test = db.collection("Books").where(filter=FieldFilter("genre", "==", "Fantasy")).stream()
-    for bt in test:
-        print(bt.id)
+    # test = db.collection("Books").where(filter=FieldFilter("genre", "==", "Fantasy")).stream()
+    # for bt in test:
+    #     print(bt.id)
+    books_or = {}
 
-    for and_array in arr:
-        print(and_array)
+    for and_array in or_arr:
+        #print(and_array)
+        books_ref = db.collection("Books")
         for statement in and_array:
-            # try catch for int values
-            print(type(statement[2]))
-            books_ref = books_ref.where(filter=FieldFilter(statement[0], statement[1], statement[2].strip("\"")))
 
+            print(type(statement[2]))
+            try:
+                query_value = float(statement[2])
+            except:
+                query_value = str(statement[2]).strip("\"")
+
+            print(type(query_value))
+            print(query_value)
+
+            books_ref = books_ref.where(filter=FieldFilter(statement[0], statement[1], query_value))
+
+        book_add(books_ref, book_set)
+
+
+    print(book_set)
+
+    return book_set
+
+
+def book_add(books_ref, book_set):
     book = books_ref.stream()
-    print(book)
 
     for b in book:
         book_set.add(b.id)
 
-        # book_dict = books_ref.stream()
-    print(book_set)
 
-
-    """
-    if not books_ref:
-        print(f"There are no books where {arr[i][0]} {arr[i][1]} {arr[i][2]}")
-
-    for b in book_dict:
-        # Prints our book title
-        book_data = b.id
-        print(book_data) """
-
-    """
-    book_dict = dict(books_ref.where(filter=FieldFilter(field, operator, value)).stream())
-    if len(book_dict) == 0:
-        # if field isn't found
-        print(f"there is no data on {field} {operator} {value}")
-
-    # if value is numeric no values that are greater than that
-    if value.isnumeric():
-        print(f"there are no books that are {operator} {value}")
-        return {}
-    for b in book_dict:
-        print(f"{b.id} => {b.to_dict()}")
-    """
-    return book_set
 def main():
+
+    #print(parse(ex_string2))
 
     print("Welcome to ... \nfor help type 'help'")
 
@@ -170,8 +148,6 @@ def main():
 
 
         filter_fields_and(parse(query_prompt), db)
-
-        print(parse(query_prompt))
 
         done = input("Would you like to make another query? (y/n)")
 
