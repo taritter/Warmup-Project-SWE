@@ -103,14 +103,11 @@ def filter_fields_and(or_arr, db) -> dict:
         books_ref = db.collection("Books")
         for statement in and_array:
 
-            print(type(statement[2]))
             try:
                 query_value = float(statement[2])
             except:
                 query_value = str(statement[2]).strip("\"")
 
-            print(type(query_value))
-            print(query_value)
 
             books_ref = books_ref.where(filter=FieldFilter(statement[0], statement[1], query_value))
 
