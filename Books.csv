@@ -1,37 +1,37 @@
-﻿title ,author,genre,goodreads rating,date published,series?,cost (paperback),our rating (out of 5)
-,,,,,,,
-Crime and Punishment,Fyodor Dostoevsky,"Crime, Fiction",4.26,1866,no,14.49,4.7
-The Brother Karamazov,Fydor Dostoevsky,Historical Fiction,4.37,1880,no,10.39,3.6
-The Federalist Papers,"James Madison, John Jay, Alexander Hamiltion","Philosophy, Politics",4.1,1788,no,16.86,3.4
-The Grapes of Wrath,John Steinbeck,Historical Fiction,4,1939,no,12.29,3.7
-Of Mice and Men,John Steinbeck,Historical Fiction,3.88,1937,no,9.39,3.1
-Walden,Henry David Thoreau,Philosophy,3.94,1854,no,9.99,4.1
-War and Peace,Leo Tolstoy,Historical Fiction,4.16,1867,no,22.00,4.5
-A Spark of Life,Erich Maria Remarque,Historical Fiction,4.52,1952,no,17.00,
-Python For Dummies,"Stef Maruch, Aahz Maruch",Education,3.67,2011,yes,20.35,
-The Sun Also Rises,Ernest Hemingway,Historical Fiction,3.8,1926,no,12.49,3.1
-The Priory of the Orange Tree,Samantha Shannon,Fantasy,4.21,2019,Yes,13.99,
-The Love Hypothesis,Ali Hazelwood,Romance,4.2,2021,No,10.70,3
-If you give a mouse a cookie,Laura Joffe Numeroff,"Childrens, Fiction",4.28,1985,Yes,11.39,5
-The Hobbit,J.R.R. Tolkien,Fantasy,4.29,1937,yes,10.73,
-The Dark Tower,Stephen King,Fantasy,4.62,2005,Yes,84.99,4.3
-Kite Runner,Khaled Hosseini,Historical Fiction,4.34,2003,No,10.61,4
-Ender's Game,Orson Scott Card,Science Fiction,4.31,1985,Yes,10.49,4.75
-The 40 Days of Musa Dagh,Franz Wefel,Historical Fiction,4.38,1933,No,25.95,5
-Night,Elie Wiesel,History,4.37,1956,Yes,6.27,5
-Percy Jackson and The Olympians,Rick Riordan,Fantasy,4.54,2008,Yes,43.42,5
-Icebreaker,Hannah Grace,Romance,3.95,2022,No,10.44,
-The Girl with a dragon tattoo,Stieg Larsson,Mystery,4.17,2005,Yes,10.68,
-Clockwork Angel,Cassandra Clare,Fantasy,4.31,2010,Yes,12.44,4.2
-Ready Player Two,Ernest Cline,Science Fiction,3.43,2020,Yes,10.00,
-How To Catch a Unicorn,Adam Wallace,Childrens,3.86,2019,No,14.89,
-Dog Man,Dav Pilkey,Childrens,4.15,2016,Yes,8.38,
-The Twilight Saga,Stephanie Meyer,Fantasy,3.92,2005,Yes,65.23,
-A Game of Thrones,George RR Martin,Fantasy,4.44,1996,Yes,23.99,
-The Fellowship of the Ring,J.R.R. Tolkien,Fantasy,4.39,1954,Yes,13.27,
-Assassins Apprentice,Robin Hobb,Fantasy,4.18,1995,Yes,8.54,
-Tuesdays with Morrie,Mitch Albom,Nonfiction,4.17,1997,No,10.72,
-One Flew Over the Cuckoos Nest,Ken Kesey,Fiction,4.2,1962,No,8.99,
-Ordinary People,Judith Guest,Fiction,3.93,1976,No,14.99,
-The Hitchhikers Guide to the Galaxy,Douglas Adams,Science Fiction,4.23,1979,Yes,13.89,
-The Color Purple,Alice Walker,Historical Fiction,4.27,1982,No,8.16,5
+﻿title ,author,genre,goodreads rating,date published,cost (paperback),our rating (out of 5)
+,,,,,,
+Crime and Punishment,Fyodor Dostoevsky,"Crime, Fiction",4.26,1866,14.49,4.7
+The Brother Karamazov,Fydor Dostoevsky,Historical Fiction,4.37,1880,10.39,3.6
+The Federalist Papers,"James Madison, John Jay, Alexander Hamiltion","Philosophy, Politics",4.10,1788,16.86,3.4
+The Grapes of Wrath,John Steinbeck,Historical Fiction,4.00,1939,12.29,3.7
+Of Mice and Men,John Steinbeck,Historical Fiction,3.88,1937,9.39,3.1
+Walden,Henry David Thoreau,Philosophy,3.94,1854,9.99,4.1
+War and Peace,Leo Tolstoy,Historical Fiction,4.16,1867,22.00,4.5
+A Spark of Life,Erich Maria Remarque,Historical Fiction,4.52,1952,17.00,
+Python For Dummies,"Stef Maruch, Aahz Maruch",Education,3.67,2011,20.35,
+The Sun Also Rises,Ernest Hemingway,Historical Fiction,3.80,1926,12.49,3.1
+The Priory of the Orange Tree,Samantha Shannon,Fantasy,4.21,2019,13.99,
+The Love Hypothesis,Ali Hazelwood,Romance,4.20,2021,10.70,3.0
+If you give a mouse a cookie,Laura Joffe Numeroff,"Childrens, Fiction",4.28,1985,11.39,5.0
+The Hobbit,J.R.R. Tolkien,Fantasy,4.29,1937,10.73,
+The Dark Tower,Stephen King,Fantasy,4.62,2005,84.99,4.3
+Kite Runner,Khaled Hosseini,Historical Fiction,4.34,2003,10.61,4.0
+Ender's Game,Orson Scott Card,Science Fiction,4.31,1985,10.49,4.8
+The 40 Days of Musa Dagh,Franz Wefel,Historical Fiction,4.38,1933,25.95,5.0
+Night,Elie Wiesel,History,4.37,1956,6.27,5.0
+Percy Jackson and The Olympians,Rick Riordan,Fantasy,4.54,2008,43.42,5.0
+Icebreaker,Hannah Grace,Romance,3.95,2022,10.44,
+The Girl with a dragon tattoo,Stieg Larsson,Mystery,4.17,2005,10.68,
+Clockwork Angel,Cassandra Clare,Fantasy,4.31,2010,12.44,4.2
+Ready Player Two,Ernest Cline,Science Fiction,3.43,2020,10.00,
+How To Catch a Unicorn,Adam Wallace,Childrens,3.86,2019,14.89,
+Dog Man,Dav Pilkey,Childrens,4.15,2016,8.38,
+The Twilight Saga,Stephanie Meyer,Fantasy,3.92,2005,65.23,
+A Game of Thrones,George RR Martin,Fantasy,4.44,1996,23.99,
+The Fellowship of the Ring,J.R.R. Tolkien,Fantasy,4.39,1954,13.27,
+Assassins Apprentice,Robin Hobb,Fantasy,4.18,1995,8.54,
+Tuesdays with Morrie,Mitch Albom,Nonfiction,4.17,1997,10.72,
+One Flew Over the Cuckoos Nest,Ken Kesey,Fiction,4.20,1962,8.99,
+Ordinary People,Judith Guest,Fiction,3.93,1976,14.99,
+The Hitchhikers Guide to the Galaxy,Douglas Adams,Science Fiction,4.23,1979,13.89,
+The Color Purple,Alice Walker,Historical Fiction,4.27,1982,8.16,5.0
