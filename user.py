@@ -140,8 +140,10 @@ def main():
         filter_fields_and(parse(query_prompt), db)
 
         done = input("Would you like to make another query? (y/n)")
-
-        if done.casefold() == 'n':
+        
+        done.casefold()
+        
+        if done == 'n' or done == 'no':
             doneQuerying = True
 
 
