@@ -1,4 +1,4 @@
-from pyparsing import one_of, OneOrMore, ZeroOrMore, Word, Opt, Suppress, printables, originalTextFor
+from pyparsing import one_of, OneOrMore, ZeroOrMore, Word, Opt, Suppress, alphanums, originalTextFor
 
 import Utilities
 
@@ -12,7 +12,7 @@ ex_string2 = 'genre == "Fantasy" and author == "Samantha Shannon" or cost < 4'
 
 # Pyparsing forms
 field = one_of("title cost author date_published genre goodreads_rating our_rating")
-value = Suppress(Opt('\"')) + OneOrMore(Word(printables)) + Suppress(Opt('\"'))
+value = Suppress(Opt('\"')) + OneOrMore(Word(alphanums)) + Suppress(Opt('\"'))
 operators = one_of("== < > of")
 concat = one_of("and or")
 query_form = field + operators + originalTextFor(value)
