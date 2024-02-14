@@ -115,6 +115,7 @@ def main():
     # print(filter_fields([["genre", "==", "fantasy"], ["cost", ">", 10]]))
     # filter_fields_or([["genre", "==", "Fantasy"], ["cost", ">", 10]], db)
     # filter_fields([[['genre', '=', '"Type of Genre"'], ['author', '=', '"Hibbeler"']], [['cost', '>', '"4"'], ['author', '=', '"5"']], [['title', '=', '"bob"']]])
+    print(book_title("Of Mice and Men", db))
 
     book_title("The Dark Tower", db)
 

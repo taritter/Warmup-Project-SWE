@@ -17,8 +17,17 @@ def pull_from_firestore(filename):
                 "genre": book_data.get("genre"),
                 "goodreads_rating": book_data.get("goodreads rating"),
                 "date_published": book_data.get("date published"),
-                # "series": book_data.get("series?"),
                 "cost": book_data.get("cost (paperback)"),
                 "our_rating": book_data.get("our rating (out of 5)"),
             }
             db.collection("Books").document(title).set(book_dict)
+
+
+"""
+def main():
+    pull_from_firestore("Books.json")
+
+
+if __name__ == "__main__":
+    main()
+"""

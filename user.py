@@ -1,5 +1,6 @@
-from pyparsing import one_of, OneOrMore, ZeroOrMore, Word, Opt, Suppress, printables, originalTextFor
+from pyparsing import one_of, OneOrMore, ZeroOrMore, Word, Opt, Suppress, alphanums, originalTextFor
 
+import Admin
 import Utilities
 
 from google.cloud.firestore_v1 import FieldFilter
@@ -12,7 +13,7 @@ ex_string2 = 'genre == "Fantasy" and author == "Samantha Shannon" or cost < 4'
 
 # Pyparsing forms
 field = one_of("title cost author date_published genre goodreads_rating our_rating")
-value = Suppress(Opt('\"')) + OneOrMore(Word(printables)) + Suppress(Opt('\"'))
+value = Suppress(Opt('\"')) + OneOrMore(Word(alphanums)) + Suppress(Opt('\"'))
 operators = one_of("== < > of")
 concat = one_of("and or")
 query_form = field + operators + originalTextFor(value)
@@ -20,7 +21,7 @@ combined_query = query_form + ZeroOrMore(concat + query_form)
 
 
 # Parse function
-def parse(s: str):
+def parse(s: str, db):
     # Remove leading + trailing whitespace
     s.strip()
     query_array = []
@@ -28,9 +29,8 @@ def parse(s: str):
     # Detect type of query
     try:
         if s[0] == '\"':
-
             # title query bc first char is beginning of quotes
-            title_query(s)
+            return book_title(s.strip('\"'), db)
 
         else:
             # Figure out if its 'of query' or 'regular query'
@@ -58,20 +58,21 @@ def parse(s: str):
                 temp_or_list.append(temp_and_list)  #add values to or list
             query_array.append(temp_or_list)  #add or list to the main query array
 
+            return filter_fields_and(query_array, db)
     except:
         #
         print("failed")
 
-    return query_array
+
 
 
 def book_title(title, db):
     # gets information about a specific book
-    field = db.collection("Books").document(title).get()
+    fields = db.collection("Books").document(title).get()
     # print(field.to_dict())
-    if field.to_dict() == None:
+    if len(fields.to_dict()) == 0:
         print("This book does not exist in the database")
-    return field.to_dict()
+    return fields.to_dict()
 
 
 def of_query(field: str, title: str):
@@ -130,13 +131,12 @@ def book_add(books_ref, book_set):
 
 
 def main():
-
-    #print(parse(ex_string2))
+    # Admin.pull_from_firestore("Books.json")
+    # print(parse(ex_string2))
 
     print("Welcome to ... \nfor help type 'help'")
 
     doneQuerying = False
-
     db = Utilities.connect_to_firestore()
     while not doneQuerying:
 
@@ -146,8 +146,9 @@ def main():
             print("Help message...")
             continue
 
-
-        filter_fields_and(parse(query_prompt), db)
+        print(parse(query_prompt, db))
+        print()
+        #filter_fields_and(parse(query_prompt, db), db)
 
         done = input("Would you like to make another query? (y/n)")
 
