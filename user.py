@@ -6,8 +6,8 @@ from google.cloud.firestore_v1 import FieldFilter
 
 
 # Example Strings
-ex_string1 = 'genre == "Fantasy" and author == "Samantha Shannon"'
-ex_string2 = 'genre == "Fantasy" and author == "Samantha Shannon" or cost < 4'
+# ex_string1 = 'genre == "Fantasy" and author == "Samantha Shannon"'
+# ex_string2 = 'genre == "Fantasy" and author == "Samantha Shannon" or cost < 4'
 
 
 # Pyparsing forms
@@ -42,24 +42,23 @@ def parse(s: str):
 
             for i in result:
                 if i == "or":
-                    if temp_and_list:  #check if there are values separated by and
-                        temp_or_list.append(temp_and_list)  #add values separated by and to or list
-                    query_array.append(temp_or_list)  #add or list to the main query array
-                    temp_and_list = []  #reset lists
+                    if temp_and_list:                          #check if there are values separated by and
+                        temp_or_list.append(temp_and_list)   #add values separated by and to or list
+                    query_array.append(temp_or_list)      #add or list to the main query array
+                    temp_and_list = []                     #reset lists
                     temp_or_list = []
                 elif i == "and":
-                    if temp_and_list:  #check if there are values separated by "and"
-                        temp_or_list.append(temp_and_list)  #add values separated by and to or list
-                    temp_and_list = []  #reset and list
+                    if temp_and_list:                        #check if there are values separated by "and"
+                        temp_or_list.append(temp_and_list)   #add values separated by and to or list
+                    temp_and_list = []                         #reset and list
                 else:
                     temp_and_list.append(i)
 
-            if temp_and_list:  #check if there are values in and list
-                temp_or_list.append(temp_and_list)  #add values to or list
-            query_array.append(temp_or_list)  #add or list to the main query array
+            if temp_and_list:                         #check if there are values in and list
+                temp_or_list.append(temp_and_list)      #add values to or list
+            query_array.append(temp_or_list)           #add or list to the main query array
 
     except:
-        #
         print("failed")
 
     return query_array
@@ -93,13 +92,9 @@ def filter_fields_and(or_arr, db) -> dict:
     """
     books_ref = db.collection("Books")
     book_set = set()
-    # test = db.collection("Books").where(filter=FieldFilter("genre", "==", "Fantasy")).stream()
-    # for bt in test:
-    #     print(bt.id)
     books_or = {}
 
     for and_array in or_arr:
-        #print(and_array)
         books_ref = db.collection("Books")
         for statement in and_array:
 
@@ -127,8 +122,6 @@ def book_add(books_ref, book_set):
 
 
 def main():
-
-    #print(parse(ex_string2))
 
     print("Welcome to ... \nfor help type 'help'")
 
