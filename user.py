@@ -8,7 +8,7 @@ from google.cloud.firestore_v1 import FieldFilter
 
 # Example Strings
 ex_string1 = 'genre == "Fantasy" and author == "Samantha Shannon"'
-ex_string2 = 'genre == "Fantasy" and author == "Samantha Shannon" or cost < 4.4'
+ex_string2 = 'genre == "Fantasy" and author == "Samantha Shannon" or cost < "4.4"'
 # cost == 23.99 or author == "Samantha Shannon"
      
 
@@ -63,7 +63,9 @@ def parse(s: str, db):
             return filter_fields_and(query_array, db)
     except:
         #
-        print("failed")
+        print()
+        print("[ERROR: Please check formatting or enter help for a help message]")
+        print()
 
 
 def book_title(title, db):
@@ -93,21 +95,19 @@ def filter_fields_and(or_arr, db) -> set:
         books_ref = db.collection("Books")
         for statement in and_array:
 
-            print(type(statement[2]))
+            #print(type(statement[2]))
 
             try:
                 query_value = float(statement[2].strip('\"'))
             except:
                 query_value = str(statement[2]).strip("\"")
 
-            print(type(query_value))
-            print(query_value)
+            #print(type(query_value))
+            #print(query_value)
 
             books_ref = books_ref.where(filter=FieldFilter(statement[0], statement[1], query_value))
 
         book_add(books_ref, book_set)
-
-    print(book_set)
 
     return book_set
 
@@ -132,9 +132,15 @@ def main():
         query_prompt = input("Enter your search: ")
 
         if query_prompt.casefold() == 'help':
-            print("Help message...")
+            print(f"\nFormat your query with either of the following notations:\n",
+                    "1: [field] [operator] [\"value\"] (and/or) ...\nExample: genre == \"Fantasty\" \nExample: cost == \"23.99\" or date_published == \"1996\"\n\n", 
+                    "Fields: title, cost, author, date_published, genre, goodreads_rating, our_rating \n", 
+                    "Value: This is the area to put in the genre of a book or the numerical rating to be queried",
+                    "Operators: ==, <, > \n\n",
+                    "2: [\"title of book\"]\nExample: \"The Hobbit\"\n\n",
+                    "Misc: help\n")
             continue
-
+        print()
         print(parse(query_prompt, db))
         print()
         # filter_fields_and(parse(query_prompt, db), db)
