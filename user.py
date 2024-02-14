@@ -85,9 +85,7 @@ def filter_fields_and(or_arr, db) -> set:
     """
     books_ref = db.collection("Books")
     book_set = set()
-    # test = db.collection("Books").where(filter=FieldFilter("genre", "==", "Fantasy")).stream()
-    # for bt in test:
-    #     print(bt.id)
+
     books_or = {}
 
     for and_array in or_arr:
@@ -123,9 +121,10 @@ def main():
     # Admin.pull_from_firestore("Books.json")
     # print(parse(ex_string2))
 
-    print("Welcome to ... \nfor help type 'help'")
+    print("Welcome to our Book database. To find what you're looking for, enter")
+    print("queries according to the format below. \nFor help type 'help'")
 
-    done_querying = False
+    done_querying = False     #while loop to continue querying
     db = Utilities.connect_to_firestore()
     while not done_querying:
 
@@ -139,15 +138,15 @@ def main():
                     "Operators: ==, <, > \n\n",
                     "2: [\"title of book\"]\nExample: \"The Hobbit\"\n\n",
                     "Misc: help\n")
-            continue
-        print()
-        print(parse(query_prompt, db))
-        print()
-        # filter_fields_and(parse(query_prompt, db), db)
+            continue #dont parse and call function
+
+        print(parse(query_prompt, db))  #calling parse function
 
         done = input("Would you like to make another query? (y/n)")
 
-        if done.casefold() == 'n':
+        done.casefold()
+
+        if done == 'n' or done == 'no':
             done_querying = True
 
     return 0
@@ -155,4 +154,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-#uhfghdruhbdgrurdgb
