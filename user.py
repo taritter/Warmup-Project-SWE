@@ -1,17 +1,19 @@
-from pyparsing import one_of, OneOrMore, ZeroOrMore, Word, Opt, Suppress, alphanums, originalTextFor
+from pyparsing import one_of, OneOrMore, ZeroOrMore, Word, Opt, Suppress, originalTextFor
 
-import Admin
 import Utilities
 
 from google.cloud.firestore_v1 import FieldFilter
 
+#pip install --upgrade firebase-admin
 
 # Example Strings
 ex_string1 = 'genre == "Fantasy" and author == "Samantha Shannon"'
-ex_string2 = 'genre == "Fantasy" and author == "Samantha Shannon" or cost < 4'
-
+ex_string2 = 'genre == "Fantasy" and author == "Samantha Shannon" or cost < 4.4'
+# cost == 23.99 or author == "Samantha Shannon"
+     
 
 # Pyparsing forms
+alphanums = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.'
 field = one_of("title cost author date_published genre goodreads_rating our_rating")
 value = Suppress(Opt('\"')) + OneOrMore(Word(alphanums)) + Suppress(Opt('\"'))
 operators = one_of("== < > of")
@@ -64,8 +66,6 @@ def parse(s: str, db):
         print("failed")
 
 
-
-
 def book_title(title, db):
     # gets information about a specific book
     fields = db.collection("Books").document(title).get()
@@ -75,18 +75,7 @@ def book_title(title, db):
     return fields.to_dict()
 
 
-def of_query(field: str, title: str):
-    # make single call to query
-    return NotImplementedError
-
-
-def operator_query(fields: list, operators: list, values: list):
-    # Each item[i] in each list corresponds to 1 query.
-    # For single querys there will only be 1 item in each list
-    # Concatenate queries together with for loop
-
-    return NotImplementedError
-def filter_fields_and(or_arr, db) -> dict:
+def filter_fields_and(or_arr, db) -> set:
     """
     field = "genrez"
     operator = "=="
@@ -100,13 +89,14 @@ def filter_fields_and(or_arr, db) -> dict:
     books_or = {}
 
     for and_array in or_arr:
-        #print(and_array)
+        # print(and_array)
         books_ref = db.collection("Books")
         for statement in and_array:
 
             print(type(statement[2]))
+
             try:
-                query_value = float(statement[2])
+                query_value = float(statement[2].strip('\"'))
             except:
                 query_value = str(statement[2]).strip("\"")
 
@@ -116,7 +106,6 @@ def filter_fields_and(or_arr, db) -> dict:
             books_ref = books_ref.where(filter=FieldFilter(statement[0], statement[1], query_value))
 
         book_add(books_ref, book_set)
-
 
     print(book_set)
 
@@ -136,9 +125,9 @@ def main():
 
     print("Welcome to ... \nfor help type 'help'")
 
-    doneQuerying = False
+    done_querying = False
     db = Utilities.connect_to_firestore()
-    while not doneQuerying:
+    while not done_querying:
 
         query_prompt = input("Enter your search: ")
 
@@ -148,14 +137,12 @@ def main():
 
         print(parse(query_prompt, db))
         print()
-        #filter_fields_and(parse(query_prompt, db), db)
+        # filter_fields_and(parse(query_prompt, db), db)
 
         done = input("Would you like to make another query? (y/n)")
 
         if done.casefold() == 'n':
-            doneQuerying = True
-
-
+            done_querying = True
 
     return 0
 
